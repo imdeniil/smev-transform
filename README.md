@@ -147,12 +147,18 @@ result = transform.process(xml)
 
 ```bash
 # Все тесты
-python -m unittest discover tests/
+pytest
+
+# С подробным выводом
+pytest -v
 
 # Конкретные тесты
-python -m unittest tests.test_transform -v
-python -m unittest tests.test_text_decoder -v
-python -m unittest tests.test_attribute_decoder -v
+pytest smev_transform/tests/test_transform.py -v
+pytest smev_transform/tests/test_text_decoder.py -v
+pytest smev_transform/tests/test_attribute_decoder.py -v
+
+# С покрытием кода
+pytest --cov=smev_transform --cov-report=html
 ```
 
 ## Различия с оригинальной PHP библиотекой
@@ -173,20 +179,31 @@ python -m unittest tests.test_attribute_decoder -v
 ## Структура проекта
 
 ```
-smev_transform/
-├── __init__.py              # Основной модуль
-├── transform.py             # Главный класс Transform
-├── text_decoder.py          # Декодирование текстовых блоков (Шаг 9.1)
-├── attribute_decoder.py     # Декодирование атрибутов (Шаг 9.2)
-├── xml_namespace.py         # Работа с XML namespaces
-├── attribute.py            # Представление XML атрибутов
-├── comparators.py          # Сортировка атрибутов
-└── exceptions.py           # Исключения
-
-tests/                      # Полное покрытие тестами
-├── test_transform.py
-├── test_text_decoder.py    # Тесты Шага 9.1
-└── test_attribute_decoder.py # Тесты Шага 9.2
+smev-transform/
+├── smev_transform/              # Основной пакет
+│   ├── __init__.py              # Инициализация модуля
+│   ├── transform.py             # Главный класс Transform
+│   ├── text_decoder.py          # Декодирование текстовых блоков (Шаг 9.1)
+│   ├── attribute_decoder.py     # Декодирование атрибутов (Шаг 9.2)
+│   ├── xml_namespace.py         # Работа с XML namespaces
+│   ├── attribute.py             # Представление XML атрибутов
+│   ├── comparators.py           # Сортировка атрибутов
+│   ├── exceptions.py            # Исключения
+│   └── tests/                   # Тесты пакета
+│       ├── test_transform.py
+│       ├── test_text_decoder.py
+│       └── test_attribute_decoder.py
+├── docs/                        # Документация
+│   ├── CHANGELOG.md
+│   ├── CLASSES.md
+│   ├── FILES.md
+│   ├── TECH.md
+│   └── TRANSIT.md
+├── setup.py                     # Конфигурация setuptools
+├── pyproject.toml               # Современная конфигурация пакета
+├── README.md                    # Этот файл
+├── LICENSE                      # MIT License
+└── requirements.txt             # Dev зависимости
 ```
 
 ## Совместимость и миграция
@@ -201,38 +218,66 @@ tests/                      # Полное покрытие тестами
 - ✅ Полное соответствие официальной документации СМЭВ3
 - ✅ Корректная работа с реальными СМЭВ сообщениями
 
-## Публикация на PyPI
-
-Для публикации пакета на PyPI:
-
-```bash
-# Установка инструментов сборки
-uv pip install build twine
-
-# Сборка дистрибутива
-python -m build
-
-# Публикация на PyPI
-python -m twine upload dist/*
-```
-
 ## Разработка
 
-### Установка зависимостей для разработки
+### Начало работы
+
+1. **Клонируйте репозиторий:**
+   ```bash
+   git clone https://github.com/imdeniil/smev-transform
+   cd smev-transform
+   ```
+
+2. **Создайте виртуальное окружение с uv:**
+   ```bash
+   uv venv
+   ```
+
+3. **Активируйте окружение:**
+   ```bash
+   # Windows
+   .venv\Scripts\activate
+
+   # Linux/macOS
+   source .venv/bin/activate
+   ```
+
+4. **Синхронизируйте зависимости:**
+   ```bash
+   uv sync
+   ```
+
+### Установка в режиме разработки
+
 ```bash
+# С dev зависимостями
 uv pip install -e ".[dev]"
+
+# Или напрямую
+pip install -e ".[dev]"
 ```
 
 ### Запуск тестов
+
 ```bash
+# Все тесты
 pytest
-# или
-python -m pytest -v
+
+# С подробным выводом
+pytest -v
+
+# С покрытием кода
+pytest --cov=smev_transform --cov-report=html
 ```
 
-### Проверка покрытия кода тестами
+### Публикация на PyPI
+
 ```bash
-pytest --cov=smev_transform --cov-report=html
+# Сборка пакета
+uv build
+
+# Публикация (требуется API token)
+uv publish
 ```
 
 ## Ссылки

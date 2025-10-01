@@ -34,7 +34,6 @@ smev_transform/
 ├── LICENSE                      # MIT License
 ├── MANIFEST.in                  # Инструкции для включения файлов в дистрибутив
 ├── README.md                    # Основная документация
-├── CLAUDE.md                    # Инструкции для Claude Code
 ├── pyproject.toml               # Современная конфигурация пакета (PEP 517/518)
 ├── setup.py                     # Setuptools конфигурация (для обратной совместимости)
 └── requirements.txt             # Зависимости для разработки
